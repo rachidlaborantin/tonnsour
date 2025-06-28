@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tonnsour/components/customization/quick_time_chooser.dart';
 import 'package:tonnsour/components/evening_widget.dart';
 import 'package:tonnsour/components/goal_item_widget.dart';
 import 'package:tonnsour/components/header_widget.dart';
@@ -15,10 +16,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
+/*
+return SafeArea(
       child: Scaffold(
         backgroundColor: kWhite,
         body: Column(
@@ -67,5 +66,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+ */
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return QuickTimeChooser(timeSelectionListener: (time) {
+      print('Heure séléctionnée : ${time.format(context)}');
+    });
   }
 }
