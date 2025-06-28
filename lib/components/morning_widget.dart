@@ -1,24 +1,38 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:tonnsour/models/plan.dart';
 import 'package:tonnsour/utils/constants.dart';
 
 class MorningWidget extends StatelessWidget {
   const MorningWidget({super.key});
 
+  final hourAndPlan = '3:30 • Wakeup and wuduu';
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-      child: Container(
-        width: double.infinity,
-        height: 100.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: kBlue, borderRadius: BorderRadius.circular(40.0)),
-        child: Column(
-          children: [_TitleContainer()],
-        ),
+      child: Column(
+        children: [
+          // Title container
+          Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                color: kBlue, borderRadius: BorderRadius.circular(40.0)),
+            child: Column(
+              children: [
+                _TitleContainer(),
+                Plan(
+                    hourAndPlan: hourAndPlan,
+                    backgroundColor: kRed,
+                    planDone: true),
+                Plan(
+                    hourAndPlan: hourAndPlan,
+                    backgroundColor: kRed,
+                    planDone: true),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

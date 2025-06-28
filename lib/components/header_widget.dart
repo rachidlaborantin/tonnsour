@@ -58,9 +58,9 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 const Text(
                   'DON\'T FORGET TO DRINK !',
                   style: TextStyle(
-                      color: kBlack,
+                      color: kRed,
                       fontFamily: 'Permanent',
-                      fontSize: 15.0,
+                      fontSize: 12.0,
                       fontWeight: FontWeight.w400,
                       fontStyle: FontStyle.italic),
                 ),

@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:tonnsour/models/reminder.dart';
 import 'package:tonnsour/utils/constants.dart';
 
 class ReminderWidget extends StatelessWidget {
@@ -15,7 +16,12 @@ class ReminderWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: kBlue, borderRadius: BorderRadius.circular(30.0)),
       child: Column(
-        children: [_TitleContainer()],
+        children: [
+          _TitleContainer(),
+          const Reminder(name: 'First to remind'),
+          const Reminder(name: 'First to remind'),
+          const Reminder(name: 'First to remind')
+        ],
       ),
     );
   }

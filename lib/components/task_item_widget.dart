@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:tonnsour/models/task.dart';
 import 'package:tonnsour/utils/constants.dart';
 
 class TaskWidget extends StatelessWidget {
@@ -15,7 +16,13 @@ class TaskWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: kBlue, borderRadius: BorderRadius.circular(40.0)),
       child: Column(
-        children: [_TitleContainer()],
+        children: [
+          _TitleContainer(),
+          const Task(id: 1, name: "Task 1"),
+          const Task(id: 2, name: "Task 2"),
+          const Task(id: 3, name: "Task 3"),
+          const Task(id: 4, name: "Task 4")
+        ],
       ),
     );
   }

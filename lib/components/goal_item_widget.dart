@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:tonnsour/models/goal.dart';
 import 'package:tonnsour/utils/constants.dart';
 
 class GoalWidget extends StatelessWidget {
@@ -15,7 +16,13 @@ class GoalWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: kBlue, borderRadius: BorderRadius.circular(40.0)),
       child: Column(
-        children: [_TitleContainer()],
+        children: [
+          _TitleContainer(),
+          const Goal(id: 1, name: 'Goal to do'),
+          const Goal(id: 2, name: 'Goal to do'),
+          const Goal(id: 3, name: 'Goal to do'),
+          const Goal(id: 4, name: 'Goal to do')
+        ],
       ),
     );
   }

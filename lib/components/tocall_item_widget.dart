@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:tonnsour/models/tocall.dart';
 import 'package:tonnsour/utils/constants.dart';
 
 class ToCallWidget extends StatelessWidget {
@@ -15,7 +16,12 @@ class ToCallWidget extends StatelessWidget {
       decoration: BoxDecoration(
           color: kBlue, borderRadius: BorderRadius.circular(30.0)),
       child: Column(
-        children: [_TitleContainer()],
+        children: [
+          _TitleContainer(),
+          const ToCall(name: 'First person to call'),
+          const ToCall(name: 'First person to call'),
+          const ToCall(name: 'First person to call')
+        ],
       ),
     );
   }

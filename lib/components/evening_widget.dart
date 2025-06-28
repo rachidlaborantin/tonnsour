@@ -3,8 +3,11 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:tonnsour/utils/constants.dart';
 
+import '../models/plan.dart';
+
 class EveningWidget extends StatelessWidget {
   const EveningWidget({super.key});
+  final hourAndPlan = '3:30 • Wakeup and wuduu';
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +15,21 @@ class EveningWidget extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16.0, right: 16.0),
       child: Container(
         width: double.infinity,
-        height: 100.0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: kBlue, borderRadius: BorderRadius.circular(40.0)),
         child: Column(
-          children: [_TitleContainer()],
+          children: [
+            _TitleContainer(),
+            Plan(
+                hourAndPlan: hourAndPlan,
+                backgroundColor: kRed,
+                planDone: true),
+            Plan(
+                hourAndPlan: hourAndPlan,
+                backgroundColor: kRed,
+                planDone: true),
+          ],
         ),
       ),
     );

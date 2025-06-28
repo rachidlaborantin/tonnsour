@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const Expanded(child: MorningWidget()),
             const SizedBox(
-              height: 16.0,
+              height: 8.0,
             ),
             const Expanded(child: EveningWidget()),
             const SizedBox(
