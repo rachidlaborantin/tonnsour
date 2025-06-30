@@ -3,7 +3,11 @@ import 'package:tonnsour/utils/constants.dart';
 
 class QuickTimeChooser extends StatefulWidget {
   final ValueChanged<TimeOfDay> timeSelectionListener;
-  const QuickTimeChooser({super.key, required this.timeSelectionListener});
+  final String dialogMessage;
+  const QuickTimeChooser(
+      {super.key,
+      required this.timeSelectionListener,
+      required this.dialogMessage});
 
   @override
   State<QuickTimeChooser> createState() => _QuickTimeChooserState();
@@ -19,9 +23,9 @@ class _QuickTimeChooserState extends State<QuickTimeChooser> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text(
-        'Select an hour',
-        style: TextStyle(
+      title: Text(
+        widget.dialogMessage,
+        style: const TextStyle(
             color: kBlue, fontFamily: kPoppins, fontWeight: FontWeight.w800),
       ),
       content: Column(
@@ -32,6 +36,7 @@ class _QuickTimeChooserState extends State<QuickTimeChooser> {
             spacing: 8.0,
             runSpacing: 8.0,
             children: hours.map((hour) {
+              String hourFormatted = hour.toString().padLeft(2, '0');
               return FilterChip(
                   backgroundColor: kBlue,
                   selectedColor: kRed,
@@ -41,7 +46,7 @@ class _QuickTimeChooserState extends State<QuickTimeChooser> {
                       fontFamily: kPoppins,
                       fontWeight: FontWeight.w500),
                   label: Text(
-                    '$hour h',
+                    '$hourFormatted h',
                   ),
                   selected: hour == selectedHour,
                   onSelected: (_) {
@@ -60,11 +65,12 @@ class _QuickTimeChooserState extends State<QuickTimeChooser> {
             spacing: 8.0,
             runSpacing: 8.0,
             children: minutes.map((minute) {
+              String minuteFormatted = minute.toString().padLeft(2, '0');
               return FilterChip(
                   backgroundColor: kBlue,
                   selectedColor: kRed,
                   checkmarkColor: kWhite,
-                  label: Text('$minute min'),
+                  label: Text('$minuteFormatted min'),
                   labelStyle: const TextStyle(
                       color: kWhite,
                       fontFamily: kPoppins,
@@ -86,7 +92,6 @@ class _QuickTimeChooserState extends State<QuickTimeChooser> {
             onPressed: () {
               widget.timeSelectionListener(
                   TimeOfDay(hour: selectedHour, minute: selectedMinute));
-              Navigator.pop(context);
             },
             child: const Text(
               'Confirm',

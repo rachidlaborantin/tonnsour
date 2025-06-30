@@ -6,6 +6,7 @@ import 'package:tonnsour/components/header_widget.dart';
 import 'package:tonnsour/components/reminder_item_widget.dart';
 import 'package:tonnsour/components/task_item_widget.dart';
 import 'package:tonnsour/components/tocall_item_widget.dart';
+import 'package:tonnsour/pages/settings_page.dart';
 import 'package:tonnsour/utils/constants.dart';
 import 'package:tonnsour/components/morning_widget.dart';
 
@@ -70,8 +71,6 @@ return SafeArea(
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return QuickTimeChooser(timeSelectionListener: (time) {
-      print('Heure séléctionnée : ${time.format(context)}');
-    });
+    return SettingsPage();
   }
 }

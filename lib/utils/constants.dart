@@ -7,3 +7,7 @@ const kBlack = Color(0xFF1F1F1F);
 
 // Strings
 const kPoppins = 'Poppins';
+
+// Preferences keys
+const kDayStartTime = 'day_start_time';
+const kDayEndTime = 'day_end_time';
