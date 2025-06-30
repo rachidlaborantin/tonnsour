@@ -25,10 +25,6 @@ class EveningWidget extends StatelessWidget {
                 hourAndPlan: hourAndPlan,
                 backgroundColor: kRed,
                 planDone: true),
-            Plan(
-                hourAndPlan: hourAndPlan,
-                backgroundColor: kRed,
-                planDone: true),
           ],
         ),
       ),

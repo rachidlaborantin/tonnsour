@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tonnsour/components/customization/BottomBar.dart';
 import 'package:tonnsour/pages/home_page.dart';
 import 'package:tonnsour/pages/loading_page.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: const BottomBar(),
     );
   }
 }

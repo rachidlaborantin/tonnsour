@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tonnsour/components/customization/BottomBar.dart';
+import 'package:tonnsour/components/customization/BottomButton.dart';
 import 'package:tonnsour/components/customization/quick_time_chooser.dart';
 import 'package:tonnsour/components/evening_widget.dart';
 import 'package:tonnsour/components/goal_item_widget.dart';
@@ -18,7 +21,12 @@ class HomePage extends StatefulWidget {
 }
 
 /*
-return SafeArea(
+
+ */
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
       child: Scaffold(
         backgroundColor: kWhite,
         body: Column(
@@ -61,16 +69,11 @@ return SafeArea(
             ),
             // Bottom space
             const SizedBox(
-              height: 16.0,
-            )
+              height: 4.0,
+            ),
           ],
         ),
       ),
     );
- */
-class _HomePageState extends State<HomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return SettingsPage();
   }
 }
