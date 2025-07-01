@@ -3,12 +3,63 @@ import 'package:tonnsour/models/edition/edit_plan.dart';
 import 'package:tonnsour/models/plan.dart';
 import 'package:tonnsour/utils/constants.dart';
 
-class EveningWidget extends StatelessWidget {
+import '../utils/helpers.dart';
+
+class EveningWidget extends StatefulWidget {
   const EveningWidget({super.key});
 
-  final hourAndPlan = '3:30 • Wakeup and wuduu';
+  @override
+  State<EveningWidget> createState() => _EveningWidgetState();
+}
+
+class _EveningWidgetState extends State<EveningWidget> {
+  final String _dayStartTime = '13:00';
+  String _dayEndTime = '22:00';
+
+  Future<void> _loadPDatas() async {
+    final savedStartTime = await Helpers.getStringPref(kDayEndTime);
+    if (savedStartTime != null) {
+      setState(() {
+        _dayEndTime = savedStartTime;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPDatas();
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Load the times between day start and day end
+    final List<String> hours = Helpers.generateTimeRange(
+        dayStartTime: _dayStartTime,
+        dayEndTime: _dayEndTime,
+        step: const Duration(minutes: 30));
+    final _plans = hours.expand((hour) {
+      final hourSole = hour.split(':')[0].padLeft(2, '0');
+      bool isTimePassed = Helpers.isTimePassed(hour);
+
+      return [
+        EditPlan(
+          hour: hour,
+          plan: '...',
+          backgroundColor: kRed,
+          timePassed: isTimePassed,
+          isTimeEditable: false,
+        ),
+        EditPlan(
+          hour: hourSole,
+          plan: '...',
+          backgroundColor: kRed,
+          timePassed: isTimePassed,
+          isTimeEditable: true,
+        ),
+      ];
+    }).toList();
+
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
           context: context,
@@ -32,22 +83,27 @@ class EveningWidget extends StatelessWidget {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
-                            children: const [
-                              EditPlan(
-                                  hour: '3:30',
-                                  hourEditable: true,
-                                  plan: 'Wakeup and wuduu',
-                                  backgroundColor: kRed,
-                                  planDone: true)
-                            ],
+                            children: _plans,
                           ),
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
                     ],
                   ),
                 ),
               ));
     }
+
+    // We search for the next not passed hour
+    final next = _plans.firstWhere(
+      (plan) => !plan.timePassed && !plan.isTimeEditable,
+      orElse: () => _plans.lastWhere(
+        (plan) => !plan.isTimeEditable,
+        orElse: () => _plans.last, // fallback extrême
+      ),
+    );
 
     return GestureDetector(
       onTap: () => _showEditGoalDialog(context),
@@ -58,11 +114,12 @@ class EveningWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: kBlue, borderRadius: BorderRadius.circular(30.0)),
         child: Column(
-          children: const [
-            _TitleContainer(
+          children: [
+            const _TitleContainer(
               height: 30.0,
               fontSize: 15.0,
             ),
+            Plan(timePassed: next.timePassed, hour: next.hour, plan: next.plan)
           ],
         ),
       ),

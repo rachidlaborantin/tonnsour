@@ -44,7 +44,7 @@ class _BottomBarState extends State<BottomBar> {
           BoxShadow(blurRadius: 20.0, color: kBlue.withOpacity(0.1))
         ]),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 15.0),
           child: GNav(
             gap: 8.0,
             activeColor: kWhite,

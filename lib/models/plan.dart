@@ -5,21 +5,17 @@ import 'package:tonnsour/utils/constants.dart';
 class Plan extends StatelessWidget {
   const Plan(
       {super.key,
-      required this.backgroundColor,
-      required this.planDone,
+      required this.timePassed,
       required this.hour,
-      required this.hourEditable,
       required this.plan});
   final String hour;
-  final bool hourEditable;
+  final bool timePassed;
   final String plan;
-  final Color backgroundColor;
-  final bool planDone;
 
   @override
   Widget build(BuildContext context) {
-    const textStyle = TextStyle(
-        color: kWhite,
+    TextStyle textStyle = TextStyle(
+        color: timePassed ? kWhite : kBlue,
         fontFamily: kPoppins,
         fontSize: 15.0,
         fontWeight: FontWeight.w500);
@@ -30,7 +26,8 @@ class Plan extends StatelessWidget {
       margin: const EdgeInsets.only(top: 5.0, left: 25.0, right: 25.0),
       padding: const EdgeInsets.only(left: 20.0),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50.0), color: backgroundColor),
+          borderRadius: BorderRadius.circular(50.0),
+          color: timePassed ? kRed : kWhite),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Row(
