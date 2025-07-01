@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tonnsour/components/customization/BottomBar.dart';
-import 'package:tonnsour/pages/home_page.dart';
+import 'package:tonnsour/pages/plan_page.dart';
 import 'package:tonnsour/pages/loading_page.dart';
 
 void main() {

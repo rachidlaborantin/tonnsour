@@ -86,6 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: SettingsList(
         sections: [
+          // Plan Section
           SettingsSection(
               title: const Text(
                 'Plan',
@@ -141,7 +142,20 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   onPressed: (context) => dayEndChooser(),
                 )
-              ])
+              ]),
+
+          // Notification section
+          /* const SettingsSection(
+            title: Text(
+              'Notification',
+              style: TextStyle(
+                  color: kBlue,
+                  fontFamily: kPoppins,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w700),
+            ),
+            tiles: [],
+          )*/
         ],
       ),
     );

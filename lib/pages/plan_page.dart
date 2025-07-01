@@ -1,34 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:tonnsour/components/customization/BottomBar.dart';
-import 'package:tonnsour/components/customization/BottomButton.dart';
-import 'package:tonnsour/components/customization/quick_time_chooser.dart';
 import 'package:tonnsour/components/evening_widget.dart';
 import 'package:tonnsour/components/goal_item_widget.dart';
 import 'package:tonnsour/components/header_widget.dart';
 import 'package:tonnsour/components/reminder_item_widget.dart';
 import 'package:tonnsour/components/task_item_widget.dart';
 import 'package:tonnsour/components/tocall_item_widget.dart';
-import 'package:tonnsour/pages/settings_page.dart';
-import 'package:tonnsour/utils/constants.dart';
 import 'package:tonnsour/components/morning_widget.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class PlanPage extends StatefulWidget {
+  const PlanPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<PlanPage> createState() => _PlanPageState();
 }
 
 /*
 
  */
-class _HomePageState extends State<HomePage> {
+class _PlanPageState extends State<PlanPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: kWhite,
         body: Column(
           children: [
             // Header line

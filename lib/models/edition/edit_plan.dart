@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tonnsour/utils/constants.dart';
 
 /// It's an element for the morning or evening element
-class Plan extends StatelessWidget {
-  const Plan(
+class EditPlan extends StatelessWidget {
+  const EditPlan(
       {super.key,
       required this.backgroundColor,
       required this.planDone,
@@ -21,12 +21,12 @@ class Plan extends StatelessWidget {
     const textStyle = TextStyle(
         color: kWhite,
         fontFamily: kPoppins,
-        fontSize: 15.0,
+        fontSize: 18.0,
         fontWeight: FontWeight.w500);
 
     return Container(
       width: double.infinity,
-      height: 30.0,
+      height: 50.0,
       margin: const EdgeInsets.only(top: 5.0, left: 25.0, right: 25.0),
       padding: const EdgeInsets.only(left: 20.0),
       decoration: BoxDecoration(
@@ -39,16 +39,16 @@ class Plan extends StatelessWidget {
               hour,
               style: textStyle,
             ),
-            const SizedBox(width: 6.0),
+            const SizedBox(width: 8.0),
             // Bullpoint separator
             Container(
-                width: 6.0,
-                height: 6.0,
+                width: 8.0,
+                height: 8.0,
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: kWhite,
                 )),
-            const SizedBox(width: 6.0),
+            const SizedBox(width: 8.0),
             Text(plan, style: textStyle)
           ],
         ),
