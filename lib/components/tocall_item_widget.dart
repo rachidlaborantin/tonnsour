@@ -10,6 +10,14 @@ class ToCallWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const _toCalls = [
+      EditToCall(name: '...'),
+      EditToCall(name: '...'),
+      EditToCall(name: '...'),
+      EditToCall(name: '...'),
+      EditToCall(name: '...'),
+    ];
+
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
           context: context,
@@ -33,13 +41,7 @@ class ToCallWidget extends StatelessWidget {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
-                            children: const [
-                              EditToCall(name: '...'),
-                              EditToCall(name: '...'),
-                              EditToCall(name: '...'),
-                              EditToCall(name: '...'),
-                              EditToCall(name: '...'),
-                            ],
+                            children: _toCalls,
                           ),
                         ),
                       )
@@ -60,11 +62,12 @@ class ToCallWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0),
             border: Border.all(color: kRed, width: 2.0)),
         child: Column(
-          children: const [
-            _TitleContainer(
+          children: [
+            const _TitleContainer(
               height: 30.0,
               fontSize: 15.0,
             ),
+            ..._toCalls.take(3).map((toCall) => ToCall(name: toCall.name))
           ],
         ),
       ),

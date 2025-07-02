@@ -10,6 +10,14 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const _tasks = [
+      EditTask(id: 1, name: '...'),
+      EditTask(id: 2, name: '...'),
+      EditTask(id: 3, name: '...'),
+      EditTask(id: 4, name: '...'),
+      EditTask(id: 5, name: '...')
+    ];
+
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
           context: context,
@@ -33,13 +41,7 @@ class TaskWidget extends StatelessWidget {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
-                            children: const [
-                              EditTask(id: 1, name: '...'),
-                              EditTask(id: 2, name: '...'),
-                              EditTask(id: 3, name: '...'),
-                              EditTask(id: 4, name: '...'),
-                              EditTask(id: 5, name: '...')
-                            ],
+                            children: _tasks,
                           ),
                         ),
                       )
@@ -58,11 +60,12 @@ class TaskWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: kBlue, borderRadius: BorderRadius.circular(40.0)),
         child: Column(
-          children: const [
-            _TitleContainer(
+          children: [
+            const _TitleContainer(
               height: 30.0,
               fontSize: 15.0,
             ),
+            ..._tasks.map((task) => Task(id: task.id, name: task.name))
           ],
         ),
       ),

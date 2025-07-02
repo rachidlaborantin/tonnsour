@@ -37,9 +37,9 @@ class _GoalIdContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 35.0,
-      height: 25.0,
-      padding: const EdgeInsets.all(5.0),
+      width: 25.0,
+      height: 15.0,
+      padding: const EdgeInsets.all(2.5),
       decoration:
           BoxDecoration(color: kRed, borderRadius: BorderRadius.circular(20.0)),
       child: Center(
@@ -48,7 +48,7 @@ class _GoalIdContainer extends StatelessWidget {
           style: const TextStyle(
               color: kWhite,
               fontFamily: kPoppins,
-              fontSize: 15.0,
+              fontSize: 10.0,
               fontWeight: FontWeight.w800),
         ),
       ),

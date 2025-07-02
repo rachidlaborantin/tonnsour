@@ -10,6 +10,14 @@ class ReminderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const _reminders = [
+      EditReminder(name: '...'),
+      EditReminder(name: '...'),
+      EditReminder(name: '...'),
+      EditReminder(name: '...'),
+      EditReminder(name: '...'),
+    ];
+
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
           context: context,
@@ -32,15 +40,7 @@ class ReminderWidget extends StatelessWidget {
                       ),
                       Expanded(
                         child: SingleChildScrollView(
-                          child: Column(
-                            children: const [
-                              EditReminder(name: '...'),
-                              EditReminder(name: '...'),
-                              EditReminder(name: '...'),
-                              EditReminder(name: '...'),
-                              EditReminder(name: '...'),
-                            ],
-                          ),
+                          child: Column(children: _reminders),
                         ),
                       )
                     ],
@@ -58,11 +58,14 @@ class ReminderWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: kRed, borderRadius: BorderRadius.circular(30.0)),
         child: Column(
-          children: const [
-            _TitleContainer(
+          children: [
+            const _TitleContainer(
               height: 30.0,
               fontSize: 15.0,
             ),
+            ..._reminders
+                .take(3)
+                .map((reminder) => Reminder(name: reminder.name))
           ],
         ),
       ),

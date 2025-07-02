@@ -10,11 +10,12 @@ class GoalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> goals = [
-      const Goal(id: 1, name: 'Goal to do'),
-      const Goal(id: 2, name: 'Goal to do'),
-      const Goal(id: 3, name: 'Goal to do'),
-      const Goal(id: 4, name: 'Goal to do')
+    const _goals = [
+      EditGoal(id: 1, name: '...'),
+      EditGoal(id: 2, name: '...'),
+      EditGoal(id: 3, name: '...'),
+      EditGoal(id: 4, name: '...'),
+      EditGoal(id: 5, name: '...')
     ];
 
     void _showEditGoalDialog(BuildContext context) {
@@ -40,13 +41,7 @@ class GoalWidget extends StatelessWidget {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
-                            children: const [
-                              EditGoal(id: 1, name: '...'),
-                              EditGoal(id: 2, name: '...'),
-                              EditGoal(id: 3, name: '...'),
-                              EditGoal(id: 4, name: '...'),
-                              EditGoal(id: 5, name: '...')
-                            ],
+                            children: _goals,
                           ),
                         ),
                       )
@@ -65,11 +60,12 @@ class GoalWidget extends StatelessWidget {
         decoration: BoxDecoration(
             color: kBlue, borderRadius: BorderRadius.circular(40.0)),
         child: Column(
-          children: const [
-            _TitleContainer(
+          children: [
+            const _TitleContainer(
               height: 30.0,
               fontSize: 15.0,
             ),
+            ..._goals.map((goal) => Goal(id: goal.id, name: goal.name))
           ],
         ),
       ),
