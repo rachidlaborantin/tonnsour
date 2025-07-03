@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tonnsour/pages/history_page.dart';
+import 'package:tonnsour/pages/home_page.dart';
 import 'package:tonnsour/pages/plan_page.dart';
 import 'package:tonnsour/pages/settings_page.dart';
 import 'package:tonnsour/utils/constants.dart';
@@ -20,21 +22,12 @@ class _BottomBarState extends State<BottomBar> {
       fontSize: 15.0,
       fontWeight: FontWeight.w800);
 
-  static const List<Widget> _menus = <Widget>[
-    PlanPage(),
-    DataBaseTester(),
-    SettingsPage()
-  ];
+  static const List<Widget> _menus = <Widget>[HomePage(), SettingsPage()];
 
   static const List<GButton> _menusButtons = <GButton>[
     GButton(
       icon: Icons.calendar_today_outlined,
-      text: 'Plan',
-      textStyle: _menuStyle,
-    ),
-    GButton(
-      icon: Icons.calendar_today_outlined,
-      text: 'Plan',
+      text: 'Planner',
       textStyle: _menuStyle,
     ),
     GButton(

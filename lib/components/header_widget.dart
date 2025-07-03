@@ -5,19 +5,31 @@ import 'package:intl/intl.dart';
 /// This is the header showing the app infos (title, date, quote).
 /// It's a part of the components
 class HeaderWidget extends StatefulWidget {
-  const HeaderWidget({super.key});
+  final DateTime date;
+  const HeaderWidget({super.key, required this.date});
 
   @override
   State<HeaderWidget> createState() => _HeaderWidgetState();
 }
 
-DateTime todaysDate = DateTime.now();
-
 class _HeaderWidgetState extends State<HeaderWidget> {
-  String formattedDate = DateFormat('d MMMM y').format(todaysDate);
+  String _formattedDateLabel(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final tomorrow = today.add(const Duration(days: 1));
+
+    if (date.year == tomorrow.year &&
+        date.month == tomorrow.month &&
+        date.day == tomorrow.day) {
+      return 'Tomorrow';
+    }
+    return DateFormat('d MMMM y').format(date);
+  }
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate = _formattedDateLabel(widget.date);
+
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Row(

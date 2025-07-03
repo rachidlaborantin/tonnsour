@@ -11,7 +11,8 @@ import '../utils/constants.dart';
 import '../utils/helpers.dart';
 
 class PlanPage extends StatefulWidget {
-  const PlanPage({super.key});
+  final DateTime date;
+  const PlanPage({super.key, required this.date});
 
   @override
   State<PlanPage> createState() => _PlanPageState();
@@ -52,7 +53,7 @@ class _PlanPageState extends State<PlanPage> {
         startTime: _eveningStartTime, endTime: _dayEndTime);
 
     //And generate the day with prefilled plans
-    Helpers().addNewDay(morningHours, eveningHours);
+    Helpers().addNewDay(widget.date, morningHours, eveningHours);
   }
 
   @override
@@ -68,7 +69,9 @@ class _PlanPageState extends State<PlanPage> {
         body: Column(
           children: [
             // Header line
-            const HeaderWidget(),
+            HeaderWidget(
+              date: widget.date,
+            ),
             const SizedBox(
               height: 16.0,
             ),

@@ -18,8 +18,8 @@ class _SettingsPageState extends State<SettingsPage> {
     _loadPreferences();
   }
 
-  String dayStartTime = '0:00';
-  String dayEndTime = '0:00';
+  String dayStartTime = '5:00';
+  String dayEndTime = '22:00';
 
   Future<void> _loadPreferences() async {
     final savedStartTime = await Helpers.getStringPref(kDayStartTime);

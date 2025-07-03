@@ -74,19 +74,19 @@ class Helpers {
   }
 
   // Create the new day on page showing
-  void addNewDay(List<String> morningHours, List<String> eveningHours) async {
+  void addNewDay(DateTime date, List<String> morningHours,
+      List<String> eveningHours) async {
     final dayService = DaysService();
-    DateTime rawDate = DateTime.now();
-    DateTime today = DateTime(rawDate.year, rawDate.month, rawDate.day);
+    DateTime planDate = DateTime(date.year, date.month, date.day);
     DateTime testDate = DateTime(2025, 7, 14);
 
     // Check day existing
-    final existingDay = await dayService.findDayByDate(testDate);
+    final existingDay = await dayService.findDayByDate(planDate);
     if (existingDay != null) {
       return;
     }
 
-    final Day day = Day()..date = testDate;
+    final Day day = Day()..date = planDate;
 
     // Generate and fill plans, goals, tasks, etc...
     final List<Plan> morningPlans = morningHours.expand((hour) {
