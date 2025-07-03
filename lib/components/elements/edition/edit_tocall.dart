@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:tonnsour/models/tocall.dart';
 import 'package:tonnsour/utils/constants.dart';
+import 'package:tonnsour/utils/services/tocalls_service.dart';
 
-/// A widget to show when user want to edit a task
-class EditTask extends StatefulWidget {
-  const EditTask({super.key, required this.id, required this.name});
+class EditToCall extends StatefulWidget {
+  const EditToCall({super.key, required this.name, required this.id});
   final int id;
   final String name;
 
   @override
-  State<EditTask> createState() => _EditTaskState();
+  State<EditToCall> createState() => _EditToCallState();
 }
 
-class _EditTaskState extends State<EditTask> {
+class _EditToCallState extends State<EditToCall> {
   late String _name;
   final TextEditingController _controller = TextEditingController();
 
@@ -25,16 +26,27 @@ class _EditTaskState extends State<EditTask> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
+      margin: const EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
       child: Row(
         children: [
-          _GoalIdContainer(id: widget.id),
-          const SizedBox(
-            width: 5.0,
+          // The empty circle
+          Container(
+            width: 15.0,
+            height: 15.0,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(width: 2, color: kWhite)),
           ),
-          EditableTask(
+          const SizedBox(
+            width: 10.0,
+          ),
+          // The tocall text
+          EditableToCall(
             initialText: widget.name,
-            onSubmitted: (newGoal) {},
+            onSubmitted: (newToCall) {
+              ToCallsService()
+                  .updateToCalls(toCallId: widget.id, newName: newToCall);
+            },
           )
         ],
       ),
@@ -42,19 +54,19 @@ class _EditTaskState extends State<EditTask> {
   }
 }
 
-/// To create a line of task which will be editable on long press
-class EditableTask extends StatefulWidget {
+/// To create a line of reminder which will be editable on long press
+class EditableToCall extends StatefulWidget {
   final String initialText;
   final void Function(String)? onSubmitted;
-  const EditableTask({super.key, required this.initialText, this.onSubmitted});
+  const EditableToCall(
+      {super.key, required this.initialText, this.onSubmitted});
 
   @override
-  State<EditableTask> createState() => _EditableTaskState();
+  State<EditableToCall> createState() => _EditableToCallState();
 }
 
-class _EditableTaskState extends State<EditableTask> {
+class _EditableToCallState extends State<EditableToCall> {
   bool _isEditing = false;
-  bool _isDone = false;
   late TextEditingController _controller;
   final FocusNode _focusNode = FocusNode();
 
@@ -78,25 +90,16 @@ class _EditableTaskState extends State<EditableTask> {
     widget.onSubmitted?.call(_controller.text);
   }
 
-  void _defineAsDone() {
-    setState(() {
-      _isDone = !_isDone;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final textStyle = TextStyle(
-        color: _isDone ? kRed : kWhite,
+    const textStyle = TextStyle(
+        color: kWhite,
         fontFamily: kPoppins,
         fontSize: 15.0,
-        fontWeight: FontWeight.w500,
-        decoration: _isDone ? TextDecoration.lineThrough : TextDecoration.none,
-        decorationThickness: 2.0);
+        fontWeight: FontWeight.w500);
 
     return GestureDetector(
         onLongPress: _startEditing,
-        onDoubleTap: _defineAsDone,
         child: _isEditing
             ? SizedBox(
                 width: 250.0,
@@ -116,31 +119,5 @@ class _EditableTaskState extends State<EditableTask> {
                 text: _controller.text,
                 style: textStyle,
               )));
-  }
-}
-
-class _GoalIdContainer extends StatelessWidget {
-  const _GoalIdContainer({required this.id});
-  final int id;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40.0,
-      height: 25.0,
-      padding: const EdgeInsets.all(5.0),
-      decoration:
-          BoxDecoration(color: kRed, borderRadius: BorderRadius.circular(20.0)),
-      child: Center(
-        child: Text(
-          id.toString(),
-          style: const TextStyle(
-              color: kWhite,
-              fontFamily: kPoppins,
-              fontSize: 16.0,
-              fontWeight: FontWeight.w800),
-        ),
-      ),
-    );
   }
 }

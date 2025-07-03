@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/constants.dart';
+import '../../../utils/constants.dart';
 
 /// To create a line of goal which will be editable on long press
 class EditablePlan extends StatefulWidget {

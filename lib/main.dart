@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tonnsour/components/customization/BottomBar.dart';
-import 'package:tonnsour/pages/plan_page.dart';
+import 'package:tonnsour/models/goal.dart';
 import 'package:tonnsour/pages/loading_page.dart';
+import 'package:tonnsour/models/start_isar.dart';
+import 'package:tonnsour/utils/services/goals_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StartIsar();
   runApp(const MyApp());
 }
 

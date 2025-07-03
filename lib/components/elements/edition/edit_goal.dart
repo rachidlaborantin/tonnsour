@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:tonnsour/models/goal.dart';
 import 'package:tonnsour/utils/constants.dart';
+import 'package:tonnsour/utils/services/goals_service.dart';
 
 /// A widget to show when user want to edit a goal
 class EditGoal extends StatefulWidget {
-  const EditGoal({super.key, required this.id, required this.name});
+  const EditGoal(
+      {super.key,
+      required this.id,
+      required this.name,
+      required this.isDone,
+      required this.number});
+  final int number;
   final int id;
   final String name;
+  final bool isDone;
 
   @override
   State<EditGoal> createState() => _EditGoalState();
@@ -28,13 +37,16 @@ class _EditGoalState extends State<EditGoal> {
       margin: const EdgeInsets.only(top: 20.0, left: 10.0, right: 10.0),
       child: Row(
         children: [
-          _GoalIdContainer(id: widget.id),
+          _GoalNumberContainer(number: widget.number),
           const SizedBox(
             width: 5.0,
           ),
           EditableGoal(
+            goalId: widget.id,
             initialText: widget.name,
-            onSubmitted: (newGoal) {},
+            onSubmitted: (newGoal) {
+              GoalsService().updateGoal(goalId: widget.id, newName: newGoal);
+            },
           )
         ],
       ),
@@ -44,9 +56,14 @@ class _EditGoalState extends State<EditGoal> {
 
 /// To create a line of goal which will be editable on long press
 class EditableGoal extends StatefulWidget {
+  final int goalId;
   final String initialText;
   final void Function(String)? onSubmitted;
-  const EditableGoal({super.key, required this.initialText, this.onSubmitted});
+  const EditableGoal(
+      {super.key,
+      required this.initialText,
+      this.onSubmitted,
+      required this.goalId});
 
   @override
   State<EditableGoal> createState() => _EditableGoalState();
@@ -81,6 +98,7 @@ class _EditableGoalState extends State<EditableGoal> {
   void _defineAsDone() {
     setState(() {
       _isDone = !_isDone;
+      GoalsService().updateGoal(goalId: widget.goalId, isDone: _isDone);
     });
   }
 
@@ -119,9 +137,9 @@ class _EditableGoalState extends State<EditableGoal> {
   }
 }
 
-class _GoalIdContainer extends StatelessWidget {
-  const _GoalIdContainer({required this.id});
-  final int id;
+class _GoalNumberContainer extends StatelessWidget {
+  const _GoalNumberContainer({required this.number});
+  final int number;
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +151,7 @@ class _GoalIdContainer extends StatelessWidget {
           BoxDecoration(color: kRed, borderRadius: BorderRadius.circular(20.0)),
       child: Center(
         child: Text(
-          id.toString(),
+          number.toString(),
           style: const TextStyle(
               color: kWhite,
               fontFamily: kPoppins,

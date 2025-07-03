@@ -1,22 +1,56 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:tonnsour/models/edition/edit_tocall.dart';
-import 'package:tonnsour/models/tocall.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:tonnsour/components/elements/tocall_e.dart';
 import 'package:tonnsour/utils/constants.dart';
 
-class ToCallWidget extends StatelessWidget {
+import '../utils/day_datas.dart';
+import '../utils/services/days_service.dart';
+import 'elements/edition/edit_tocall.dart';
+
+class ToCallWidget extends StatefulWidget {
   const ToCallWidget({super.key});
 
   @override
+  State<ToCallWidget> createState() => _ToCallWidgetState();
+}
+
+class _ToCallWidgetState extends State<ToCallWidget> {
+  late DayDatas _dayDatas;
+  bool _isLoading = true;
+
+  Future<void> _loadPDatas() async {
+    _dayDatas = await DaysService().loadDay(DateTime(2025, 7, 14), kMorning);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPDatas();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const _toCalls = [
-      EditToCall(name: '...'),
-      EditToCall(name: '...'),
-      EditToCall(name: '...'),
-      EditToCall(name: '...'),
-      EditToCall(name: '...'),
-    ];
+    if (_isLoading) {
+      return const SizedBox(
+        width: 25.0,
+        height: 25.0,
+        child: LoadingIndicator(
+          indicatorType: Indicator.lineSpinFadeLoader,
+          colors: [kBlue],
+          strokeWidth: 3.0,
+        ),
+      );
+    }
+
+    final _toCalls = _dayDatas.toCalls.map((reminder) {
+      return EditToCall(
+        id: reminder.id,
+        name: reminder.name,
+      );
+    }).toList();
 
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
@@ -67,7 +101,9 @@ class ToCallWidget extends StatelessWidget {
               height: 30.0,
               fontSize: 15.0,
             ),
-            ..._toCalls.take(3).map((toCall) => ToCall(name: toCall.name))
+            ..._toCalls
+                .take(3)
+                .map((toCall) => ToCallElement(name: toCall.name))
           ],
         ),
       ),

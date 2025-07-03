@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tonnsour/models/edition/edit_plan.dart';
-import 'package:tonnsour/models/plan.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:tonnsour/components/elements/plan_e.dart';
 import 'package:tonnsour/utils/constants.dart';
+import 'package:tonnsour/utils/day_datas.dart';
+import 'package:tonnsour/utils/services/days_service.dart';
 
+import '../models/plan.dart';
 import '../utils/helpers.dart';
+import '../utils/services/plans_service.dart';
+import 'elements/edition/edit_plan.dart';
 
 class MorningWidget extends StatefulWidget {
   const MorningWidget({super.key});
@@ -13,16 +18,14 @@ class MorningWidget extends StatefulWidget {
 }
 
 class _MorningWidgetState extends State<MorningWidget> {
-  String _dayStartTime = '0:00';
-  final String _dayEndTime = '12:00';
+  late DayDatas _dayDatas;
+  bool _isLoading = true;
 
   Future<void> _loadPDatas() async {
-    final savedStartTime = await Helpers.getStringPref(kDayStartTime);
-    if (savedStartTime != null) {
-      setState(() {
-        _dayStartTime = savedStartTime;
-      });
-    }
+    _dayDatas = await DaysService().loadDay(DateTime(2025, 7, 14), kMorning);
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -33,30 +36,32 @@ class _MorningWidgetState extends State<MorningWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // Load the times between day start and day end
-    final List<String> hours = Helpers.generateTimeRange(
-        dayStartTime: _dayStartTime,
-        dayEndTime: _dayEndTime,
-        step: const Duration(minutes: 30));
-    final _plans = hours.expand((hour) {
-      final hourSole = hour.split(':')[0].padLeft(2, '0');
-      bool isTimePassed = Helpers.isTimePassed(hour);
+    if (_isLoading) {
+      return const SizedBox(
+        width: 25.0,
+        height: 25.0,
+        child: LoadingIndicator(
+          indicatorType: Indicator.lineSpinFadeLoader,
+          colors: [kBlue],
+          strokeWidth: 3.0,
+        ),
+      );
+    }
+
+    final _plans = _dayDatas.plans.expand((plan) {
+      bool isTimePassed = Helpers.isTimePassed(plan.hour);
+
+      // We update the plan time passage status on showing
+      PlansService().updatePlan(planId: plan.id, timePassed: isTimePassed);
 
       return [
         EditPlan(
-          hour: hour,
-          plan: '...',
-          backgroundColor: kRed,
+          id: plan.id,
+          hour: plan.hour,
+          plan: plan.plan,
           timePassed: isTimePassed,
-          isTimeEditable: false,
-        ),
-        EditPlan(
-          hour: hourSole,
-          plan: '...',
-          backgroundColor: kRed,
-          timePassed: isTimePassed,
-          isTimeEditable: true,
-        ),
+          isTimeEditable: plan.isHourEditable,
+        )
       ];
     }).toList();
 
@@ -119,7 +124,11 @@ class _MorningWidgetState extends State<MorningWidget> {
               height: 30.0,
               fontSize: 15.0,
             ),
-            Plan(timePassed: next.timePassed, hour: next.hour, plan: next.plan)
+            PlanElement(
+                id: next.id,
+                timePassed: next.timePassed,
+                hour: next.hour,
+                plan: next.plan)
           ],
         ),
       ),

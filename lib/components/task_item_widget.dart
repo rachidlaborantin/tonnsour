@@ -1,22 +1,66 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:tonnsour/models/edition/edit_task.dart';
-import 'package:tonnsour/models/task.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:tonnsour/components/elements/task_e.dart';
 import 'package:tonnsour/utils/constants.dart';
+import 'package:tonnsour/utils/services/tasks_service.dart';
 
-class TaskWidget extends StatelessWidget {
+import '../utils/day_datas.dart';
+import '../utils/services/days_service.dart';
+import 'elements/edition/edit_task.dart';
+
+class TaskWidget extends StatefulWidget {
   const TaskWidget({super.key});
 
   @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
+  late DayDatas _dayDatas;
+  bool _isLoading = true;
+
+  Future<void> _loadPDatas() async {
+    _dayDatas = await DaysService().loadDay(DateTime(2025, 7, 14), kMorning);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPDatas();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const _tasks = [
-      EditTask(id: 1, name: '...'),
-      EditTask(id: 2, name: '...'),
-      EditTask(id: 3, name: '...'),
-      EditTask(id: 4, name: '...'),
-      EditTask(id: 5, name: '...')
-    ];
+    if (_isLoading) {
+      return const SizedBox(
+        width: 25.0,
+        height: 25.0,
+        child: LoadingIndicator(
+          indicatorType: Indicator.lineSpinFadeLoader,
+          colors: [kBlue],
+          strokeWidth: 3.0,
+        ),
+      );
+    }
+
+    int number = 1;
+    final _tasks = _dayDatas.tasks.expand((task) {
+      // We update the plan time passage status on showing
+      TasksService().updateTask(taskId: task.id, isDone: task.isDone);
+      return [
+        EditTask(
+          number: number++,
+          id: task.id,
+          name: task.name,
+          isDone: task.isDone,
+        )
+      ];
+    }).toList();
 
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
@@ -65,7 +109,12 @@ class TaskWidget extends StatelessWidget {
               height: 30.0,
               fontSize: 15.0,
             ),
-            ..._tasks.map((task) => Task(id: task.id, name: task.name))
+            ..._tasks.map((task) => TaskElement(
+                  id: task.id,
+                  number: task.number,
+                  name: task.name,
+                  isDone: task.isDone,
+                ))
           ],
         ),
       ),

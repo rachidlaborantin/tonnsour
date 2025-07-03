@@ -1,22 +1,58 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:tonnsour/models/edition/edit_reminder.dart';
-import 'package:tonnsour/models/reminder.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:tonnsour/components/elements/reminder_e.dart';
 import 'package:tonnsour/utils/constants.dart';
 
-class ReminderWidget extends StatelessWidget {
+import '../utils/day_datas.dart';
+import '../utils/services/days_service.dart';
+import 'elements/edition/edit_reminder.dart';
+
+class ReminderWidget extends StatefulWidget {
   const ReminderWidget({super.key});
 
   @override
+  State<ReminderWidget> createState() => _ReminderWidgetState();
+}
+
+class _ReminderWidgetState extends State<ReminderWidget> {
+  late DayDatas _dayDatas;
+  bool _isLoading = true;
+
+  Future<void> _loadPDatas() async {
+    _dayDatas = await DaysService().loadDay(DateTime(2025, 7, 14), kMorning);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPDatas();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const _reminders = [
-      EditReminder(name: '...'),
-      EditReminder(name: '...'),
-      EditReminder(name: '...'),
-      EditReminder(name: '...'),
-      EditReminder(name: '...'),
-    ];
+    if (_isLoading) {
+      return const SizedBox(
+        width: 25.0,
+        height: 25.0,
+        child: LoadingIndicator(
+          indicatorType: Indicator.lineSpinFadeLoader,
+          colors: [kBlue],
+          strokeWidth: 3.0,
+        ),
+      );
+    }
+
+    final _reminders = _dayDatas.reminders.map((reminder) {
+      return EditReminder(
+        id: reminder.id,
+        name: reminder.name,
+      );
+    }).toList();
 
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
@@ -65,7 +101,7 @@ class ReminderWidget extends StatelessWidget {
             ),
             ..._reminders
                 .take(3)
-                .map((reminder) => Reminder(name: reminder.name))
+                .map((reminder) => ReminderElement(name: reminder.name))
           ],
         ),
       ),

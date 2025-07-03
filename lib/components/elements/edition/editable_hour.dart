@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tonnsour/components/customization/quick_minute_chooser.dart';
 
-import '../../utils/constants.dart';
+import '../../../utils/constants.dart';
 
 /// To create a line of hour minute which will be editable on long press
 class EditableHour extends StatefulWidget {
@@ -42,7 +42,7 @@ class _EditableHourState extends State<EditableHour> {
                     _minuteText = minute.toString().padLeft(2, '0');
                   });
                   final fullTime =
-                      "${widget.fixedHour.padLeft(2, '0')}:$_minuteText";
+                      "${widget.fixedHour.padLeft(2, '0')}$_minuteText";
                   widget.onSubmitted?.call(fullTime);
                   Navigator.of(context).pop();
                 },
@@ -59,7 +59,7 @@ class _EditableHourState extends State<EditableHour> {
       fontSize: 18.0,
       fontWeight: FontWeight.w500,
     );
-    final displayTime = "${widget.fixedHour.padLeft(2, '0')}:$_minuteText";
+    final displayTime = "${widget.fixedHour.padLeft(2, '0')}$_minuteText";
 
     return GestureDetector(
         onTap: _minuteChooser,

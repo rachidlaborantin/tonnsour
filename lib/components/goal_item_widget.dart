@@ -1,22 +1,64 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:tonnsour/models/edition/edit_goal.dart';
-import 'package:tonnsour/models/goal.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:tonnsour/components/elements/goal_e.dart';
 import 'package:tonnsour/utils/constants.dart';
+import 'package:tonnsour/utils/services/goals_service.dart';
 
-class GoalWidget extends StatelessWidget {
+import '../utils/day_datas.dart';
+import '../utils/services/days_service.dart';
+import 'elements/edition/edit_goal.dart';
+
+class GoalWidget extends StatefulWidget {
   const GoalWidget({super.key});
 
   @override
+  State<GoalWidget> createState() => _GoalWidgetState();
+}
+
+class _GoalWidgetState extends State<GoalWidget> {
+  late DayDatas _dayDatas;
+  bool _isLoading = true;
+
+  Future<void> _loadPDatas() async {
+    _dayDatas = await DaysService().loadDay(DateTime(2025, 7, 14), kMorning);
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPDatas();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const _goals = [
-      EditGoal(id: 1, name: '...'),
-      EditGoal(id: 2, name: '...'),
-      EditGoal(id: 3, name: '...'),
-      EditGoal(id: 4, name: '...'),
-      EditGoal(id: 5, name: '...')
-    ];
+    if (_isLoading) {
+      return const SizedBox(
+        width: 25.0,
+        height: 25.0,
+        child: LoadingIndicator(
+          indicatorType: Indicator.lineSpinFadeLoader,
+          colors: [kBlue],
+          strokeWidth: 3.0,
+        ),
+      );
+    }
+
+    int number = 1;
+    final _goals = _dayDatas.goals.expand((goal) {
+      // We update the plan time passage status on showing
+      GoalsService().updateGoal(goalId: goal.id, isDone: goal.isDone);
+      return [
+        EditGoal(
+          number: number++,
+          id: goal.id,
+          name: goal.name,
+          isDone: goal.isDone,
+        )
+      ];
+    }).toList();
 
     void _showEditGoalDialog(BuildContext context) {
       showDialog(
@@ -65,7 +107,12 @@ class GoalWidget extends StatelessWidget {
               height: 30.0,
               fontSize: 15.0,
             ),
-            ..._goals.map((goal) => Goal(id: goal.id, name: goal.name))
+            ..._goals.map((goal) => GoalElement(
+                  number: goal.number,
+                  id: goal.id,
+                  name: goal.name,
+                  isDone: goal.isDone,
+                ))
           ],
         ),
       ),
